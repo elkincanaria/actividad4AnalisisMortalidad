@@ -3,6 +3,7 @@ from layout import create_layout
 import data_process
 
 app = Dash(__name__)
+server = app.server
 df = data_process.consolidacion_mortalidad()
 app.layout = create_layout(df)
 
@@ -15,6 +16,5 @@ import callbacks.tabla
 import callbacks.histograma
 import callbacks.apiladas
 
-server = app.server
 if __name__ == '__main__':
     app.run_server(debug=True)
