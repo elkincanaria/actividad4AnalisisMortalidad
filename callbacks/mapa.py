@@ -3,17 +3,22 @@ import plotly.express as px
 from main import df
 from apply_filters.filter_departments import funcion_filtro
 import json
+from functools import lru_cache
 #===================================================================
 # SE CONSTRUYE GRAFICO DE MAPA 
 #===================================================================
+@lru_cache()
+def cargar_geojson():
+    with open("resources/departamento24.geojson", "r", encoding="utf-8") as f:
+        return json.load(f)
+
 @callback(
     Output('grafico_mapa', 'figure'),
     Input('dropdown_departamento', 'value')
 )
 def actualiza_mapa(departamento):
     df_filtrado = funcion_filtro(df, departamento)
-    with open("resources/departamento24.geojson", "r", encoding="utf-8") as f:
-        geojson_colombia = json.load(f)
+    geojson_colombia = cargar_geojson()
     df_conteo= df_filtrado.groupby('DEPARTAMENTO').size().reset_index(name='MUERTES')
     fig = px.choropleth(
         df_conteo,

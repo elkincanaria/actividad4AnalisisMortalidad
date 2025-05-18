@@ -1,5 +1,6 @@
 import pandas as pd
-
+from functools import lru_cache
+@lru_cache()
 def consolidacion_mortalidad():
     df_mortalidad = pd.read_excel("resources/Anexo1.NoFetal2019_CE_15-03-23.xlsx")
     dim_causa= pd.read_excel("resources/Anexo2.CodigosDeMuerte_CE_15-03-23.xlsx", skiprows=8)
